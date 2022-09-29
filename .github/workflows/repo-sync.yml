@@ -7,6 +7,8 @@ on:
 
 jobs:
   repo-sync:
+    # disallow scheduled runs for public repo
+    if: ${{ !(github.event_name == 'schedule' && github.repository == 'thiskevinwang/test-public') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
