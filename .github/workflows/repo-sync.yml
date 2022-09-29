@@ -131,7 +131,7 @@ jobs:
       # CAREFUL: ONLY DO THIS IF THE REPO IS INTERNAL
       # We don't want to automerge PRs for the public repo.
       - name: Admin merge the pull request
-        if: ${{ steps.find-pull-request.outputs.number && steps.pr-files.outputs.count != '0' }}
+        if: ${{ steps.find-pull-request.outputs.number && steps.pr-files.outputs.count != '0' && github.repository == 'thiskevinwang/test-private' }}
         env:
           GITHUB_TOKEN: ${{ secrets.OCTOMERGER_PAT_WITH_REPO_AND_WORKFLOW_SCOPE }}
           PR_NUMBER: ${{ steps.find-pull-request.outputs.number }}
