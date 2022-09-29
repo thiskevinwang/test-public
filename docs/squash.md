@@ -1,0 +1,1 @@
+Can I squash personal PR's?
