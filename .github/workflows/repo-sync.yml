@@ -60,14 +60,14 @@ jobs:
               ref: 'heads/main'
             })
             console.log(`heads/main sha: ${mainHeadSha.data.object.sha}`)
-            const pull = await github.pulls.get({
+            const pull = await github.rest.pulls.get({
               ...context.repo,
               pull_number: parseInt(${{ steps.find-pull-request.outputs.number }})
             })
             console.log(`Pull request base sha: ${pull.data.base.sha}`)
             if (mainHeadSha.data.object.sha !== pull.data.base.sha || pull.data.mergeable_state === 'behind') {
               try {
-                const updateBranch = await github.pulls.updateBranch({
+                const updateBranch = await github.rest.pulls.updateBranch({
                   ...context.repo,
                   pull_number: parseInt(${{ steps.find-pull-request.outputs.number }})
                 })
@@ -77,7 +77,7 @@ jobs:
                 // We should retry one more time to update the branch
                 if (error.status === 422) {
                   try {
-                    const updateBranch = await github.pulls.updateBranch({
+                    const updateBranch = await github.rest.pulls.updateBranch({
                       ...context.repo,
                       pull_number: parseInt(${{ steps.find-pull-request.outputs.number }})
                     })
@@ -106,7 +106,7 @@ jobs:
           github-token: ${{ secrets.PAT_WITH_REPO_AND_WORKFLOW_SCOPE }}
           result-encoding: string
           script: |
-            const { data: prFiles } = await github.pulls.listFiles({
+            const { data: prFiles } = await github.rest.pulls.listFiles({
               ...context.repo,
               pull_number: process.env.PR_NUMBER,
             })
