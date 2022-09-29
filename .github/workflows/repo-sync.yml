@@ -55,7 +55,7 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_WITH_REPO_AND_WORKFLOW_SCOPE }}
           script: |
-            const mainHeadSha = await github.git.getRef({
+            const mainHeadSha = await github.rest.git.getRef({
               ...context.repo,
               ref: 'heads/main'
             })
